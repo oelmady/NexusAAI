@@ -122,7 +122,7 @@ export default tseslint.config([
 
 ## License
 
-This project is for educational purposes only.
+This is a personal project made for education purposes.
 
 ## Contributing
 
