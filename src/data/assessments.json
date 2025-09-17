@@ -1,0 +1,40 @@
+{
+    "assessments": [
+        {
+            "guideId": "data-processing-automation",
+            "questions": [
+                {
+                    "id": "monthly_transactions",
+                    "question": "How many data transactions do you handle monthly?",
+                    "type": "number"
+                },
+                {
+                    "id": "manual_hours",
+                    "question": "How many hours per week does your team spend on manual data entry?",
+                    "type": "number"
+                },
+                {
+                    "id": "biggest_bottleneck",
+                    "question": "What's your biggest bottleneck in data processing?",
+                    "type": "text"
+                },
+                {
+                    "id": "current_cost",
+                    "question": "Estimate your current annual cost for manual data processing (labor, errors, delays).",
+                    "type": "number"
+                },
+                {
+                    "id": "automation_interest",
+                    "question": "How interested are you in automating this process?",
+                    "type": "select",
+                    "options": [
+                        "Not interested",
+                        "Somewhat interested",
+                        "Very interested"
+                    ]
+                }
+            ],
+            "calculationLogic": "Estimate savings: (manual_hours * 50 * 52) * 0.7. Show ROI and implementation timeline based on answers."
+        }
+    ]
+}
