@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/', // Custom domain base path for GitHub Pages
   define: {
-    // Add Node.js compatibility for older versions
     global: 'globalThis',
   },
   optimizeDeps: {
