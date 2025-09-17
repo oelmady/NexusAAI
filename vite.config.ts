@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/NexusAAI/', // GitHub Pages base path - replace 'NexusAAI' with your repo name
+  base: '/', // Custom domain base path for GitHub Pages
   define: {
     // Add Node.js compatibility for older versions
     global: 'globalThis',
