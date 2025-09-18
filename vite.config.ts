@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/', // Ensure asset links are root-relative for custom domain
+  base: '', // Use relative asset paths to avoid stale absolute root caching issues
   define: {
     global: 'globalThis',
   },

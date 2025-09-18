@@ -5,6 +5,10 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Cache control (temporary while diagnosing deployment) -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
   <!-- SEO Meta Tags - Educational Focus -->
   <title>NexusAAI - Learn AI Automation That Actually Works | FAST Framework</title>
@@ -69,10 +73,23 @@
   <!-- Performance Optimization -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  <script>
+    // Deployment debug bootstrap
+    window.__BOOT_INFO = { ts: Date.now(), href: location.href };
+    setTimeout(() => {
+      if (!window.__APP_MOUNTED) {
+        const warn = document.createElement('div');
+        warn.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#fee;color:#900;font:12px/1.4 system-ui;padding:6px 10px;z-index:9999;border-top:1px solid #f99';
+        warn.textContent = 'App did not mount (JS bundle maybe not executed).';
+        document.body.appendChild(warn);
+      }
+    }, 1600);
+  </script>
 </head>
 
 <body>
   <div id="root"></div>
+  <noscript>This site requires JavaScript to function properly.</noscript>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

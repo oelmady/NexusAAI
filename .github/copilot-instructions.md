@@ -2,15 +2,17 @@
 
 # AI Automation Agency Website - Copilot Instructions
 
-This is a modern React + TypeScript + Vite project for an educational AI automation agency website.
+This is a modern React + TypeScript + Vite project for an AI automation agency website.
 
 ## Project Guidelines
 
 ### Content Standards
-- All content must be educational and informative
-- No fake case studies, testimonials, or customer data
+- All content must be true and informative
+- No fake case studies, testimonials, or customer data, but can use examples or hypotheticals based on industry research
+- Focus on demonstrating AI automation use cases
+- Reference industry research and whitepapers
 - Focus on demonstrating how AI automation helps different business use cases
-- Reference /workflows folder for research and context
+- Reference /context folder for research and context
 
 ### Technology Stack
 - React 18 + TypeScript
