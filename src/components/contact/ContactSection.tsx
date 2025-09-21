@@ -146,14 +146,14 @@ export default function ContactSection({
                     {showContactInfo && (
                         <div className="mt-8 text-center">
                             <p className="text-gray-600 mb-4">
-                                Prefer to email us directly?
+                                Ready to take the next step? Contact us directly at {' '}
                             </p>
                             <a
-                                href="mailto:info@nexusaai.com"
+                                href="mailto:omar.elmady@nexusautomationai.com"
                                 onClick={() => analytics.ctaClick('mailto', 'contact_centered')}
                                 className="text-primary-600 hover:text-primary-700 font-medium"
                             >
-                                info@nexusaai.com
+                                omar.elmady@nexusautomationai.com
                             </a>
                         </div>
                     )}
