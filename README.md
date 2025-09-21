@@ -76,13 +76,10 @@ npm run dev
 
 ## Development
 
-The project uses modern development practices:
-
+To prevent Jekyll from parsing Liquid syntax in markdown files (e.g., `{{ title }}`), a `.nojekyll` file is included in `public/`. Vite copies it to `dist/` so GitHub Pages serves static assets without Liquid processing.
 - **Zero vulnerabilities** - All packages are up-to-date and secure
 - **Fast refresh** - Instant updates during development
 - **Type checking** - Full TypeScript support with strict mode
-- **Code quality** - ESLint configuration for clean code
-
 ## Educational Focus
 
 This project serves as an educational demonstration of:
