@@ -42,6 +42,18 @@ export default function Header() {
                         >
                             AI Tools
                         </Link>
+                        <Link
+                            to="/blueprints"
+                            className="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium transition-colors"
+                        >
+                            Blueprints
+                        </Link>
+                        <Link
+                            to="/case-studies"
+                            className="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium transition-colors"
+                        >
+                            Case Studies
+                        </Link>
                     </nav>
 
                     {/* CTA Button */}
@@ -96,6 +108,20 @@ export default function Header() {
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 AI Tools
+                            </Link>
+                            <Link
+                                to="/blueprints"
+                                className="block px-3 py-2 text-gray-700 hover:text-primary-600 font-medium"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Blueprints
+                            </Link>
+                            <Link
+                                to="/case-studies"
+                                className="block px-3 py-2 text-gray-700 hover:text-primary-600 font-medium"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                Case Studies
                             </Link>
                             <Link
                                 to="/contact"

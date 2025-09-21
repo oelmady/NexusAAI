@@ -18,13 +18,18 @@ interface ROIResults {
     netBenefit: number;
 }
 
-export default function ROICalculator() {
+type ROICalculatorProps = {
+    title?: string;
+    defaults?: Partial<ROIInputs>;
+};
+
+export default function ROICalculator({ title, defaults }: ROICalculatorProps) {
     const [inputs, setInputs] = useState<ROIInputs>({
-        currentManualHours: 20,
-        hourlyRate: 50,
-        automationEfficiency: 0.75,
-        implementationCost: 2000,
-        monthlyToolCost: 200
+        currentManualHours: defaults?.currentManualHours ?? 20,
+        hourlyRate: defaults?.hourlyRate ?? 50,
+        automationEfficiency: defaults?.automationEfficiency ?? 0.75,
+        implementationCost: defaults?.implementationCost ?? 2000,
+        monthlyToolCost: defaults?.monthlyToolCost ?? 200
     });
 
     const [results, setResults] = useState<ROIResults | null>(null);
@@ -73,7 +78,7 @@ export default function ROICalculator() {
         <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                    🧮 AI Automation ROI Calculator
+                    {title ?? '🧮 AI Automation ROI Calculator'}
                 </h2>
                 <p className="text-lg text-gray-600">
                     Calculate your potential savings and return on investment from AI automation
@@ -221,12 +226,12 @@ export default function ROICalculator() {
 
                             {/* ROI Interpretation */}
                             <div className={`p-4 rounded-lg ${results.roi > 100 ? 'bg-green-50 border border-green-200' :
-                                    results.roi > 50 ? 'bg-yellow-50 border border-yellow-200' :
-                                        'bg-red-50 border border-red-200'
+                                results.roi > 50 ? 'bg-yellow-50 border border-yellow-200' :
+                                    'bg-red-50 border border-red-200'
                                 }`}>
                                 <div className={`font-semibold ${results.roi > 100 ? 'text-green-800' :
-                                        results.roi > 50 ? 'text-yellow-800' :
-                                            'text-red-800'
+                                    results.roi > 50 ? 'text-yellow-800' :
+                                        'text-red-800'
                                     }`}>
                                     {results.roi > 100 ? '🚀 Excellent ROI!' :
                                         results.roi > 50 ? '✅ Good ROI' :
@@ -234,8 +239,8 @@ export default function ROICalculator() {
                                                 '❌ Negative ROI'}
                                 </div>
                                 <p className={`text-sm mt-1 ${results.roi > 100 ? 'text-green-700' :
-                                        results.roi > 50 ? 'text-yellow-700' :
-                                            'text-red-700'
+                                    results.roi > 50 ? 'text-yellow-700' :
+                                        'text-red-700'
                                     }`}>
                                     {results.roi > 100 ? 'This automation investment has excellent potential returns.' :
                                         results.roi > 50 ? 'This automation investment shows good potential.' :

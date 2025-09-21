@@ -18,5 +18,5 @@ createRoot(root!).render(
 )
 
   // Debug marker for deployment diagnostics
-  (window as any).__APP_MOUNTED = true
+  ; (window as any).__APP_MOUNTED = true
 console.info('[NexusAAI] App mounted at', new Date().toISOString())

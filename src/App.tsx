@@ -4,6 +4,8 @@ import HomePage from './pages/HomePage';
 import AssessmentPage from './pages/AssessmentPage';
 import GuidePage from './pages/GuidePage';
 import ToolsPage from './pages/ToolsPage';
+import IndustryBlueprintsPage from './pages/IndustryBlueprintsPage';
+import CaseStudyLibraryPage from './pages/CaseStudyLibraryPage';
 import { ContactSection } from './components/contact';
 import './App.css';
 
@@ -18,6 +20,8 @@ function App() {
             <Route path="/flowchart" element={<AssessmentPage />} />
             <Route path="/guide" element={<GuidePage />} />
             <Route path="/tools" element={<ToolsPage />} />
+            <Route path="/blueprints" element={<IndustryBlueprintsPage />} />
+            <Route path="/case-studies" element={<CaseStudyLibraryPage />} />
             <Route path="/contact" element={<div className="min-h-screen"><ContactSection variant="centered" /></div>} />
           </Routes>
         </main>
