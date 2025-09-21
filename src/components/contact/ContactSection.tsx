@@ -1,5 +1,6 @@
 import { Card } from '../ui';
 import ContactForm from './ContactForm';
+import { analytics } from '../../utils/analytics';
 
 interface ContactSectionProps {
     title?: string;
@@ -149,6 +150,7 @@ export default function ContactSection({
                             </p>
                             <a
                                 href="mailto:info@nexusaai.com"
+                                onClick={() => analytics.ctaClick('mailto', 'contact_centered')}
                                 className="text-primary-600 hover:text-primary-700 font-medium"
                             >
                                 info@nexusaai.com

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Card } from '../ui';
+import { analytics } from '../../utils/analytics';
 
 interface ContactFormProps {
     title?: string;
@@ -112,6 +113,9 @@ export default function ContactForm({
             // Simulate form submission (replace with actual EmailJS or API call)
             await new Promise(resolve => setTimeout(resolve, 2000));
 
+            // Track conversion event
+            analytics.ctaClick('submit_assessment', 'contact_form');
+
             // Call optional onSubmit handler
             if (onSubmit) {
                 onSubmit(formData);
@@ -147,6 +151,9 @@ export default function ContactForm({
         // Clear error when user starts typing
         if (errors[field]) {
             setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+        if (field === 'automationInterest' || field === 'timeframe') {
+            analytics.caseFilterChange({ [field]: value });
         }
     };
 

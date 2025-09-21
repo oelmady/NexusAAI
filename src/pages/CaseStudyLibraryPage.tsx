@@ -3,6 +3,7 @@ import { parseCaseStudies, type CaseStudy } from '../utils/markdownParser';
 import SEO from '../components/SEO';
 import { ContactSection } from '../components/contact';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { analytics } from '../utils/analytics';
 
 // @ts-ignore
 import caseStudiesMd from '../../case-study-library.md?raw';
@@ -87,6 +88,10 @@ export default function CaseStudyLibraryPage() {
         }
     }, [filters, navigate]);
 
+    useEffect(() => {
+        analytics.caseFilterChange({ classification: filters.classification, industry: filters.industry });
+    }, [filters]);
+
     return (
         <div className="min-h-screen">
             <SEO
@@ -139,7 +144,7 @@ export default function CaseStudyLibraryPage() {
                 <div className="max-w-6xl mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filtered.map((c, idx) => (
-                            <CaseCard key={idx} item={c} onOpen={() => setActive(c)} />)
+                            <CaseCard key={idx} item={c} onOpen={() => { analytics.caseModalOpen(c.title, c.classification); setActive(c); }} />)
                         )}
                     </div>
                 </div>

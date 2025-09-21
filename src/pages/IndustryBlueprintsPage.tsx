@@ -4,6 +4,7 @@ import SEO from '../components/SEO';
 import { ContactSection } from '../components/contact';
 import Modal from '../components/ui/Modal';
 import ROICalculator from '../components/ROICalculator';
+import { analytics } from '../utils/analytics';
 
 // We will import raw markdown at build time via Vite's raw import
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -50,6 +51,23 @@ export default function IndustryBlueprintsPage() {
             default:
                 return {};
         }
+    };
+
+    // Minimal markdown -> HTML converter for inline emphasis and simple headings
+    const mdToHtml = (text: string) => {
+        let html = text
+            // headings like **Title** on their own line -> <strong>
+            .replace(/^###\s+\*\*([^*]+)\*\*/gm, '<h3>$1</h3>')
+            .replace(/^####\s+\*\*([^*]+)\*\*/gm, '<h4>$1</h4>')
+            // bold and italic
+            .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(?!\s)([^*]+)\*/g, '<em>$1</em>')
+            // inline code
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            // line breaks
+            .replace(/\n\n/g, '<br/><br/>')
+            .replace(/\n/g, '<br/>');
+        return html;
     };
 
     return (
@@ -113,17 +131,17 @@ export default function IndustryBlueprintsPage() {
                                         {s.bullets && s.bullets.length > 0 ? (
                                             <ul className="list-disc ml-5 text-gray-700 space-y-1">
                                                 {s.bullets.map((b, i) => (
-                                                    <li key={i}>{b}</li>
+                                                    <li key={i} dangerouslySetInnerHTML={{ __html: mdToHtml(b) }} />
                                                 ))}
                                             </ul>
                                         ) : (
-                                            <p className="text-gray-700 whitespace-pre-wrap">{s.content}</p>
+                                            <div className="text-gray-700 text-sm" dangerouslySetInnerHTML={{ __html: mdToHtml(s.content) }} />
                                         )}
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Sidebar: ROI, Timeline, Compliance, Downloads */}
+                            {/* Sidebar: ROI, Downloads, Related */}
                             <aside className="space-y-6">
                                 <div className="bg-white rounded-lg shadow-sm border p-6">
                                     <h4 className="text-lg font-semibold text-gray-900 mb-3">Estimated ROI</h4>
@@ -140,51 +158,11 @@ export default function IndustryBlueprintsPage() {
                                         <p className="text-sm text-gray-600">ROI details available in the full blueprint.</p>
                                     )}
                                     <button
-                                        onClick={() => setRoiOpen(true)}
+                                        onClick={() => { analytics.roiOpen('blueprints_sidebar'); setRoiOpen(true); }}
                                         className="mt-4 inline-flex items-center justify-center px-3 py-1.5 rounded-md bg-primary-600 text-white hover:bg-primary-700 text-sm"
                                     >
                                         🧮 Open ROI Calculator
                                     </button>
-                                </div>
-
-                                <div className="bg-white rounded-lg shadow-sm border p-6">
-                                    <h4 className="text-lg font-semibold text-gray-900 mb-3">Implementation Timeline</h4>
-                                    {current.timeline.length ? (
-                                        <ul className="text-sm text-gray-700 space-y-2">
-                                            {current.timeline.map((t, i) => (
-                                                <li key={i}>
-                                                    {t.phase && <div className="font-medium text-gray-900">{t.phase}</div>}
-                                                    <ul className="list-disc ml-5">
-                                                        {t.items.map((it, j) => (
-                                                            <li key={j}>{it}</li>
-                                                        ))}
-                                                    </ul>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="text-sm text-gray-600">See detailed week-by-week plan in the download.</p>
-                                    )}
-                                </div>
-
-                                <div className="bg-white rounded-lg shadow-sm border p-6">
-                                    <h4 className="text-lg font-semibold text-gray-900 mb-3">Compliance Checklist</h4>
-                                    {current.compliance.length ? (
-                                        <div className="space-y-3">
-                                            {current.compliance.map((c, i) => (
-                                                <div key={i}>
-                                                    <div className="font-medium text-gray-900">{c.title}</div>
-                                                    <ul className="list-disc ml-5 text-sm text-gray-700">
-                                                        {c.points.map((p, j) => (
-                                                            <li key={j}>{p}</li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <p className="text-sm text-gray-600">Industry-specific compliance items will appear here.</p>
-                                    )}
                                 </div>
 
                                 <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -201,20 +179,6 @@ export default function IndustryBlueprintsPage() {
                                                 lines.push(`${i + 1}. ${s.title}`);
                                                 (s.bullets || []).forEach(b => lines.push(`   - ${b}`));
                                             });
-                                            if (current.timeline.length) {
-                                                lines.push('', '## Timeline');
-                                                current.timeline.forEach(t => {
-                                                    if (t.phase) lines.push(`- ${t.phase}`);
-                                                    t.items.forEach(it => lines.push(`   - ${it}`));
-                                                });
-                                            }
-                                            if (current.compliance.length) {
-                                                lines.push('', '## Compliance');
-                                                current.compliance.forEach(c => {
-                                                    lines.push(`- ${c.title}`);
-                                                    c.points.forEach(p => lines.push(`   - ${p}`));
-                                                });
-                                            }
                                             const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
                                             const url = URL.createObjectURL(blob);
                                             const a = document.createElement('a');
@@ -224,6 +188,7 @@ export default function IndustryBlueprintsPage() {
                                             a.click();
                                             a.remove();
                                             URL.revokeObjectURL(url);
+                                            analytics.checklistDownload(current.industry);
                                         }}
                                         className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition"
                                         aria-label="Download implementation checklist"
@@ -235,7 +200,7 @@ export default function IndustryBlueprintsPage() {
                                 <div className="bg-white rounded-lg shadow-sm border p-6">
                                     <h4 className="text-lg font-semibold text-gray-900 mb-3">Ready for a Custom Plan?</h4>
                                     <p className="text-sm text-gray-600 mb-4">Book a free consultation and get a tailored blueprint for your organization.</p>
-                                    <a href="#contact" className="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-primary-600 text-primary-600 hover:bg-primary-50 transition">
+                                    <a href="#contact" onClick={() => analytics.ctaClick('book_consultation', 'blueprints_sidebar')} className="inline-flex items-center justify-center px-4 py-2 rounded-lg border border-primary-600 text-primary-600 hover:bg-primary-50 transition">
                                         📅 Book Consultation
                                     </a>
                                 </div>
